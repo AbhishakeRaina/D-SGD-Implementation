@@ -12,7 +12,7 @@ conda activate dsgd_env
 ```
 - **Step 2: Clone the Repository**
 ```bash
-git clone [https://github.com/AbhishakeRaina/D-SGD-Implementation.git](https://github.com/AbhishakeRaina/D-SGD-Implementation.git)
+git clone https://github.com/AbhishakeRaina/D-SGD-Implementation         
 cd D-SGD-Implementation
 ```
 - **Step 3: Install Requirements**
