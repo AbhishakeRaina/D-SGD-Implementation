@@ -3,7 +3,7 @@
 ## Project Overview
 This repository contains a high-performance, decentralized implementation of Distributed Stochastic Gradient Descent (D-SGD). Traditional distributed systems often rely on a centralized "Parameter Server" which becomes a massive bottleneck as the model density increases. This project utilizes a **Ring All-Reduce** topology to distribute the communication load equally across all nodes, ensuring near-linear scalability.
 
-**1. & Environment Setup:**
+**1. Installation & Environment Setup:**
 To avoid dependency conflicts and ensure all telemetry modules like `psutil` function correctly, please use the following setup:
 - **Step 1: Create and Activate Conda Environment**
 ```bash
@@ -57,7 +57,7 @@ The performance-critical phase where the system reaches maximum throughput.
 - **Phase 2 (Handshake):** Sockets connect; high initial latency ($\approx 10s$) due to TCP setup
 - **Phase 3 (Steady-State):** Optimal performance loop. Uses FP16 quantization and Double Buffering to reach 9.4 batches/s.
 
-**4. Performance:**
+## Performance(More Details discussed later):
 - Handshake $T_{comm}$: 10.28s (Network binding).
 - Steady-State $T_{comm}$: 0.0132s (Optimized sync).
 
