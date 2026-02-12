@@ -3,13 +3,55 @@
 ## Project Overview
 This repository contains a high-performance, decentralized implementation of Distributed Stochastic Gradient Descent (D-SGD). Traditional distributed systems often rely on a centralized "Parameter Server" which becomes a massive bottleneck as the model density increases. This project utilizes a **Ring All-Reduce** topology to distribute the communication load equally across all nodes, ensuring near-linear scalability.
 
-**1. Installation:**
-- Clone repository: git clone [https://github.com/AbhishakeRaina/D-SGD-Implementation.git](https://github.com/AbhishakeRaina/D-SGD-Implementation.git)
-- Install dependencies: pip install -r requirements.txt
+**1. & Environment Setup:**
+To avoid dependency conflicts and ensure all telemetry modules like `psutil` function correctly, please use the following setup:
+- **Step 1: Create and Activate Conda Environment**
+```bash
+conda create -n dsgd_env python=3.11 -y
+conda activate dsgd_env
+```
+- **Step 2: Clone the Repository**
+```bash
+git clone [https://github.com/AbhishakeRaina/D-SGD-Implementation.git](https://github.com/AbhishakeRaina/D-SGD-Implementation.git)
+cd D-SGD-Implementation
+```
+- **Step 3: Install Requirements**
+```bash
+pip install -r requirements.txt
+```
 
 **2. How to Run:**
-- Command: python src/main.py
+Once the environment is active, run the orchestration script from the project root:
+```bash 
+python src/main.py
+```
+## Logical Execution Phases
+The system follows a three-stage lifecycle to achieve stable decentralized optimization:
 
+**Phase 1: Environment Orchestration (The Setup)**
+Managed by `main.py`, this phase ensures memory isolation and data integrity.
+
+- **Data Sharding:** The global training dataset is partitioned into local shards $\mathcal{D}_i$.
+
+- **Network Mapping:** Each node is assigned a unique identity and a neighbor address to form the ring.
+
+- **Process Isolation:** Spawns 4 independent OS processes to simulate a true cluster.
+
+**Phase 2: Network Handshake (The Warm-up)**
+Managed by `communicator.py`, this handles the initial TCP/IP stabilization.
+
+- **Socket Binding:** Each node opens a listening port and connects to its neighbor.
+
+- **Handshake Latency:** You will observe an initial communication time ($T_{comm} \approx 10s$) while connections are established.
+
+**Phase 3: Steady-State Optimization (The Loop)**
+The performance-critical phase where the system reaches maximum throughput.
+
+- **Compute & Sync:** Nodes calculate gradients, compress them via FP16, and pass them in 2(N-1) steps.
+
+- **Deadlock Mitigation:** A 10s socket timeout prevents the system from hanging if a process exits early.
+
+- **Resource Monitoring:** `monitoring.py` tracks RAM to prevent **kswapd** from triggering disk-swapping.
 **3. Execution Phases:**
 - **Phase 1 (Setup):** Orchestrator shards data and maps the network ring using multiprocessing
 - **Phase 2 (Handshake):** Sockets connect; high initial latency ($\approx 10s$) due to TCP setup
