@@ -121,8 +121,3 @@ Our empirical tests on a 4-node simulated cluster demonstrated the transition fr
 ![Execution Output](docs/output_screenshot.png)
 
 ---
-
-## 👥 Assignment Team & Contribution
-- **Abhishake Raina (2024ac05025)**: **Lead Architect**. Designed the Ring All-Reduce logic, Socket API, Deadlock Mitigation, and Telemetry systems.
-- **Amisha Tripathi (2024ac05303)**: Literature Survey & Mathematical Formulation,Speedup Analysis & Performance Benchmarking, Hardware Telemetry & Resource Analysis.
-- **Aditya Shukla (2024ac05481)**: Fault Tolerance & Logic Verification.
